@@ -1,14 +1,14 @@
 {
   "name": "selection-to-file",
   "main": "./lib/selection-to-file",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A short description of your package",
   "keywords": [
   ],
   "activationCommands": {
     "atom-workspace": "selection-to-file:create"
   },
-  "repository": "https://github.com/atom/selection-to-file",
+  "repository": "https://github.com/mvalipour/atom-selection-to-file",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
