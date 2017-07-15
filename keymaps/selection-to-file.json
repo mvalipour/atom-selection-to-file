@@ -1,0 +1,5 @@
+{
+  "atom-workspace": {
+    "ctrl-cmd-i": "selection-to-file:create"
+  }
+}

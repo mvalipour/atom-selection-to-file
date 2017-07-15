@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Create file from selection",
+        "command": "selection-to-file:create"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "Selection to file",
+          "submenu": [
+            {
+              "label": "Create file from selection",
+              "command": "selection-to-file:create"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
