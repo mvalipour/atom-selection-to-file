@@ -2,6 +2,8 @@
 
 > Quickly create a file from active text selection.
 
+![](http://g.recordit.co/pAEA0AOOxb.gif)
+
 This is currently build with the following assumptions:
 
 - generated file will have snake casing. (well, I write mainly ruby these days)
