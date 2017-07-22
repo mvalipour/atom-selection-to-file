@@ -1,5 +1,6 @@
 {
-  "atom-workspace": {
-    "ctrl-cmd-i": "selection-to-file:create"
+  "atom-text-editor": {
+    "ctrl-cmd-i": "selection-to-file:create",
+    "ctrl-r m": "selection-to-file:match"
   }
 }

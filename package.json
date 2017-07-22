@@ -4,9 +4,6 @@
   "version": "0.3.0",
   "description": "A short description of your package",
   "keywords": [],
-  "activationCommands": {
-    "atom-workspace": "selection-to-file:create"
-  },
   "repository": "https://github.com/mvalipour/atom-selection-to-file",
   "license": "MIT",
   "engines": {
@@ -14,5 +11,8 @@
   },
   "dependencies": {
     "change-case": "^3.0.1"
+  },
+  "activationCommands": {
+    "atom-text-editor": "selection-to-file:create"
   }
 }
