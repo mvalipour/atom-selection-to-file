@@ -2,7 +2,8 @@
 
 import Module from '../lib/selection-to-file';
 import 'jasmine-expect';
-import fs from 'fs-plus';
+import fs from 'fs';
+import rimraf from 'rimraf';
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
@@ -37,6 +38,12 @@ describe('SelectionToFile', () => {
     atom.commands.dispatch(editorView, `selection-to-file:${command}`);
     waitsForPromise(() => activationPromise);
     waitsForPromise(waitForCommandCompletion)
+  }
+
+  function nuke(path) {
+    return new Promise(resolve => {
+      rimraf(atom.project.resolvePath(path), resolve);
+    });
   }
 
   describe(':create command', () => {
@@ -206,7 +213,8 @@ describe('SelectionToFile', () => {
     describe('when a ruby file is open', () => {
       beforeEach(() => {
         fileIsOpen('test_file.rb');
-        fs.removeSync(atom.project.resolvePath('some_other_class.rb'));
+        waitsForPromise(() => nuke('some_other_class.rb'));
+        waitsForPromise(() => nuke('./some'));
       });
 
       describe('when no text is selected and cursor is not on a word either', () => {
@@ -238,12 +246,21 @@ describe('SelectionToFile', () => {
           expectFileToBeRenamed('test_file.rb', 'some_other_class.rb');
         });
       });
+
+      describe('when there is a text selected with module', () => {
+        it('moves the file to a new file name and directory based on the module', () => {
+          editor.insertText("class Test\r  Some::Other::Class\rend");
+          editor.setSelectedBufferRange([[1, 2], [1, 20]]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('test_file.rb', 'some/other/class.rb');
+        });
+      });
     });
 
     describe('when a js file is open', () => {
       beforeEach(() => {
         fileIsOpen('test-file.js');
-        fs.removeSync(atom.project.resolvePath('some-other-class.js'));
+        waitsForPromise(() => nuke('some-other-class.js'));
       });
 
       describe('when there is a text selected', () => {
@@ -260,7 +277,7 @@ describe('SelectionToFile', () => {
     describe('when a cs file is open', () => {
       beforeEach(() => {
         fileIsOpen('TestFile.cs');
-        fs.removeSync(atom.project.resolvePath('SomeOtherClass.cs'));
+        waitsForPromise(() => nuke('SomeOtherClass.cs'));
       });
 
       describe('when there is a text selected', () => {
@@ -277,7 +294,7 @@ describe('SelectionToFile', () => {
     describe('when a file with no extension is open', () => {
       beforeEach(() => {
         fileIsOpen('test-file');
-        fs.removeSync(atom.project.resolvePath('some-other-class'));
+        waitsForPromise(() => nuke('some-other-class'));
       });
 
       describe('when there is a text selected', () => {

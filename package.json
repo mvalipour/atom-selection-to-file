@@ -20,6 +20,7 @@
     ]
   },
   "devDependencies": {
-    "jasmine-expect": "^3.7.0"
+    "jasmine-expect": "^3.7.0",
+    "rimraf": "^2.6.1"
   }
 }
