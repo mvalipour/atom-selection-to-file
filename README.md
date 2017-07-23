@@ -1,17 +1,18 @@
 # selection-to-file package
 
-> Quickly create a file from active text selection.
+> Select some text then turn it into a [new file](https://twitter.com/mvalipour/status/886309170080874497) or [match your file name](https://twitter.com/mvalipour/status/889068473707528192).
 
-![](http://g.recordit.co/pAEA0AOOxb.gif)
+## Commands:
 
-This is currently build with the following assumptions:
+- `selection-to-file:create` (`ctrl-r c`): creates a new file (in the same directory as active editor) and name it based on the text selection and current file extension.
+- `selection-to-file:match` (`ctrl-r m`): same as this 👆 but instead of a new file, it renames current file.
 
-- generated file will have snake casing. (well, I write mainly ruby these days)
+## Currently supports
 
+- `.rb` files -- `snake_case`
+- `.js` files -- `kebab-case`
+- `.cs` files -- `PascalCase`
 
-### TODO:
+## Contribute
 
-- Cleanup hacky code
-- Write tests
-- Support various casing styles
-- Support a "prompt" mode where a "create file" prompt is shown -- to allow user to modify the path
+Contribution are welcome!
