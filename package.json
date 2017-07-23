@@ -16,6 +16,7 @@
   "activationCommands": {
     "atom-text-editor": [
       "selection-to-file:new-file",
+      "selection-to-file:new-file-prompt",
       "selection-to-file:match",
       "selection-to-file:pluck"
     ]
