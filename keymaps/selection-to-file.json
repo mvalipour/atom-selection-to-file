@@ -3,6 +3,7 @@
     "ctrl-r n": "selection-to-file:new-file",
     "ctrl-r ctrl-n": "selection-to-file:new-file-prompt",
     "ctrl-r m": "selection-to-file:match",
+    "ctrl-r ctrl-m": "selection-to-file:match-prompt",
     "ctrl-r p": "selection-to-file:pluck"
   }
 }

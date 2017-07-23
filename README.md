@@ -11,6 +11,7 @@ apm install selection-to-file
 - `selection-to-file:new-file` (`ctrl-r n`): creates a new file (in the same directory as active editor) and name it based on the text selection and current file extension.  
 - `selection-to-file:new-file-prompt` (`ctrl-r ctrl-n`): same as this 👆 - prompt mode.
 - `selection-to-file:match` (`ctrl-r m`): same as this 👆 but instead of a new file, it renames current file.
+- `selection-to-file:match-prompt` (`ctrl-r ctrl-m`): same as this 👆 - prompt mode.
 - `selection-to-file:pluck` (`ctrl-r p`): Plucks the selected text into a new file, prompting for the new path.
 
 ## Currently supports

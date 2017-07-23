@@ -7,7 +7,7 @@
       },
       {
         "label": "Match file name to selection",
-        "command": "selection-to-file:match"
+        "command": "selection-to-file:match-prompt"
       },
       {
         "label": "Pluck selection to new file",
@@ -33,6 +33,10 @@
             {
               "label": "Match file name to selection",
               "command": "selection-to-file:match"
+            },
+            {
+              "label": "Match file name to selection (prompt)",
+              "command": "selection-to-file:match-prompt"
             },
             {
               "label": "Pluck selection to new file",
