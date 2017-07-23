@@ -2,12 +2,16 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Create file from selection",
-        "command": "selection-to-file:new-file"
+        "label": "New file from selection",
+        "command": "selection-to-file:new-file-prompt"
       },
       {
         "label": "Match file name to selection",
         "command": "selection-to-file:match"
+      },
+      {
+        "label": "Pluck selection to new file",
+        "command": "selection-to-file:pluck"
       }
     ]
   },
@@ -19,12 +23,20 @@
           "label": "Selection to file",
           "submenu": [
             {
-              "label": "Create file from selection",
+              "label": "New file from selection",
+              "command": "selection-to-file:new-file"
+            },
+            {
+              "label": "New file from selection (prompt)",
               "command": "selection-to-file:new-file"
             },
             {
               "label": "Match file name to selection",
               "command": "selection-to-file:match"
+            },
+            {
+              "label": "Pluck selection to new file",
+              "command": "selection-to-file:pluck"
             }
           ]
         }
