@@ -1,7 +1,7 @@
 {
   "name": "selection-to-file",
   "main": "./lib/selection-to-file",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "A short description of your package",
   "keywords": [],
   "repository": "https://github.com/mvalipour/atom-selection-to-file",
