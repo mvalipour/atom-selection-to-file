@@ -4,6 +4,10 @@
       {
         "label": "Create file from selection",
         "command": "selection-to-file:create"
+      },
+      {
+        "label": "Match file name to selection",
+        "command": "selection-to-file:match"
       }
     ]
   },
@@ -17,6 +21,10 @@
             {
               "label": "Create file from selection",
               "command": "selection-to-file:create"
+            },
+            {
+              "label": "Match file name to selection",
+              "command": "selection-to-file:match"
             }
           ]
         }

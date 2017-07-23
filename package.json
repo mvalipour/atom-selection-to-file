@@ -10,9 +10,16 @@
     "atom": ">=1.0.0 <2.0.0"
   },
   "dependencies": {
-    "change-case": "^3.0.1"
+    "change-case": "^3.0.1",
+    "fs-plus": "^3.0.1"
   },
   "activationCommands": {
-    "atom-text-editor": "selection-to-file:create"
+    "atom-text-editor": [
+      "selection-to-file:create",
+      "selection-to-file:match"
+    ]
+  },
+  "devDependencies": {
+    "jasmine-expect": "^3.7.0"
   }
 }

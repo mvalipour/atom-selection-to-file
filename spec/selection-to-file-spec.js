@@ -1,6 +1,8 @@
 'use babel';
 
 import Module from '../lib/selection-to-file';
+import 'jasmine-expect';
+import fs from 'fs-plus';
 
 // Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
 //
@@ -11,7 +13,7 @@ describe('SelectionToFile', () => {
   let editor, editorView, activationPromise;
 
   function fileIsOpen(filename) {
-    waitsForPromise(() => atom.workspace.open(filename));
+    waitsForPromise(() => atom.workspace.open(filename).then(t => t.save()));
     runs(() => {
       editor = atom.workspace.getActiveTextEditor();
       editorView = atom.views.getView(editor);
@@ -61,9 +63,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some_other_class.rb'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some_other_class.rb');
             expect(newEditor.getText()).toEqual("# SomeOtherClass");
           });
         });
@@ -78,9 +78,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some_other_class.rb'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some_other_class.rb');
             expect(newEditor.getText()).toEqual("# SomeOtherClass");
           });
         });
@@ -95,9 +93,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some/other/class.rb'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some/other/class.rb');
             expect(newEditor.getText()).toEqual("# Some::Other::Class");
           });
         });
@@ -116,9 +112,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some-other-class.js'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some-other-class.js');
             expect(newEditor.getText()).toEqual("// SomeOtherClass");
           });
         });
@@ -133,9 +127,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some/other/class.js'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some/other/class.js');
             expect(newEditor.getText()).toEqual("// some.other.Class");
           });
         });
@@ -154,9 +146,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/SomeOtherClass.cs'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/SomeOtherClass.cs');
             expect(newEditor.getText()).toEqual("// some other class");
           });
         });
@@ -171,9 +161,7 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/Some/Other/Class.cs'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/Some/Other/Class.cs');
             expect(newEditor.getText()).toEqual("// Some.Other.Class");
           });
         });
@@ -192,11 +180,113 @@ describe('SelectionToFile', () => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
             const newEditor = atom.workspace.getTextEditors()[1];
-            expect(newEditor.getPath().endsWith('/some-file'))
-              .toBe(true);
-
+            expect(newEditor.getPath()).toEndWith('/some-file');
             expect(newEditor.getText()).toEqual("some file");
           });
+        });
+      });
+    });
+  });
+
+  describe(':match command', () => {
+
+    function expectFileToBeRenamed(from, to) {
+      // TODO: unfortunately it is unclear how atom updates the current editor
+      // after the rename happens, there fore we can't assert `editor.getPath()`
+      // this hacky version is in place for now
+      // .
+      runs(() => {
+        expect(fs.existsSync(atom.project.resolvePath(to)))
+          .toBe(true);
+        expect(fs.existsSync(atom.project.resolvePath(from)))
+          .toBe(false);
+      });
+    }
+
+    describe('when a ruby file is open', () => {
+      beforeEach(() => {
+        fileIsOpen('test_file.rb');
+        fs.removeSync(atom.project.resolvePath('some_other_class.rb'));
+      });
+
+      describe('when no text is selected and cursor is not on a word either', () => {
+        it('does not change file name', () => {
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setCursorBufferPosition([1, 1]);
+          commandIsSentAndCompleted('match');
+          runs(() => {
+            expect(editor.getPath()).toEndWith('/test_file.rb');
+          });
+        });
+      });
+
+      describe('when no text is selected and cursor is on a word', () => {
+        it('renames the file with the new name', () => {
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setCursorBufferPosition([1, 4]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('test_file.rb', 'some_other_class.rb');
+        });
+      });
+
+      describe('when there is a text selected', () => {
+        it('renames the file with the new name', () => {
+
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setSelectedBufferRange([[1, 2], [1, 16]]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('test_file.rb', 'some_other_class.rb');
+        });
+      });
+    });
+
+    describe('when a js file is open', () => {
+      beforeEach(() => {
+        fileIsOpen('test-file.js');
+        fs.removeSync(atom.project.resolvePath('some-other-class.js'));
+      });
+
+      describe('when there is a text selected', () => {
+        it('renames the file with the new name', () => {
+
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setSelectedBufferRange([[1, 2], [1, 16]]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('test-file.js', 'some-other-class.js');
+        });
+      });
+    });
+
+    describe('when a cs file is open', () => {
+      beforeEach(() => {
+        fileIsOpen('TestFile.cs');
+        fs.removeSync(atom.project.resolvePath('SomeOtherClass.cs'));
+      });
+
+      describe('when there is a text selected', () => {
+        it('renames the file with the new name', () => {
+
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setSelectedBufferRange([[1, 2], [1, 16]]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('TestFile.cs', 'SomeOtherClass.cs');
+        });
+      });
+    });
+
+    describe('when a file with no extension is open', () => {
+      beforeEach(() => {
+        fileIsOpen('test-file');
+        fs.removeSync(atom.project.resolvePath('some-other-class'));
+      });
+
+      describe('when there is a text selected', () => {
+        it('renames the file with the new name', () => {
+
+          editor.insertText("class Test\r  SomeOtherClass\rend");
+          editor.setSelectedBufferRange([[1, 2], [1, 16]]);
+          commandIsSentAndCompleted('match');
+          expectFileToBeRenamed('test-file', 'some-other-class');
         });
       });
     });
