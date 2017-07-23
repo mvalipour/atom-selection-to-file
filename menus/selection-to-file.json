@@ -3,7 +3,7 @@
     "atom-text-editor": [
       {
         "label": "Create file from selection",
-        "command": "selection-to-file:create"
+        "command": "selection-to-file:new-file"
       },
       {
         "label": "Match file name to selection",
@@ -20,7 +20,7 @@
           "submenu": [
             {
               "label": "Create file from selection",
-              "command": "selection-to-file:create"
+              "command": "selection-to-file:new-file"
             },
             {
               "label": "Match file name to selection",

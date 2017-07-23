@@ -1,6 +1,6 @@
 {
   "atom-text-editor": {
-    "ctrl-r c": "selection-to-file:create",
+    "ctrl-r n": "selection-to-file:new-file",
     "ctrl-r m": "selection-to-file:match",
     "ctrl-r p": "selection-to-file:pluck"
   }

@@ -4,7 +4,7 @@
 
 ## Commands:
 
-- `selection-to-file:create` (`ctrl-r c`): creates a new file (in the same directory as active editor) and name it based on the text selection and current file extension.
+- `selection-to-file:new-file` (`ctrl-r c`): creates a new file (in the same directory as active editor) and name it based on the text selection and current file extension.
 - `selection-to-file:match` (`ctrl-r m`): same as this 👆 but instead of a new file, it renames current file.
 
 ## Currently supports

@@ -46,7 +46,7 @@ describe('SelectionToFile', () => {
     });
   }
 
-  describe(':create command', () => {
+  describe(':new-file command', () => {
     describe('when a ruby file is open', () => {
       beforeEach(() => fileIsOpen('test_file.rb'));
 
@@ -54,7 +54,7 @@ describe('SelectionToFile', () => {
         it('does not open new editor', () => {
           editor.insertText("class Test\r  SomeOtherClass\rend");
           editor.setCursorBufferPosition([1, 1]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(1);
           });
@@ -65,7 +65,7 @@ describe('SelectionToFile', () => {
         it('does not open new editor', () => {
           editor.insertText("class Test\r  SomeOtherClass\rend");
           editor.setCursorBufferPosition([1, 4]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -80,7 +80,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with file name from selection and selected text as commented content', () => {
           editor.insertText("class Test\r  SomeOtherClass\rend");
           editor.setSelectedBufferRange([[1, 2], [1, 16]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -95,7 +95,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with dir and file name from selection and selected text as commented content', () => {
           editor.insertText("class Test\r  Some::Other::Class\rend");
           editor.setSelectedBufferRange([[1, 2], [1, 20]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -114,7 +114,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with file name from selection and selected text as commented content', () => {
           editor.insertText("function\r  SomeOtherClass()\r{}");
           editor.setSelectedBufferRange([[1, 2], [1, 16]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -129,7 +129,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with dir and file name from selection and selected text as commented content', () => {
           editor.insertText("const x = new some.other.Class()");
           editor.setSelectedBufferRange([[0, 14], [0, 30]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -148,7 +148,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with file name from selection and selected text as commented content', () => {
           editor.insertText("// TODO: some other class to add");
           editor.setSelectedBufferRange([[0, 9], [0, 25]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -163,7 +163,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with dir and file name from selection and selected text as commented content', () => {
           editor.insertText("const x = new Some.Other.Class()");
           editor.setSelectedBufferRange([[0, 14], [0, 30]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
@@ -182,7 +182,7 @@ describe('SelectionToFile', () => {
         it('creates a new editor with file name from selection and selected text as commented content', () => {
           editor.insertText("This is some file with no extension");
           editor.setSelectedBufferRange([[0, 8], [0, 17]]);
-          commandIsSentAndCompleted('create');
+          commandIsSentAndCompleted('new-file');
           runs(() => {
             expect(atom.workspace.getTextEditors().length).toEqual(2);
 
